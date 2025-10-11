@@ -55,7 +55,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-st.title("System Analysis Chatbot")
+st.title("SSP.ai 💡")
 
 # Load the pre-vectorized PDF data
 VECTOR_STORE_PATH = "Systems_Analysis_and_Design_Ninth_Edition_Gary_B_Shelly_Harry_J_Rosenblatt.pkl"
@@ -65,10 +65,10 @@ def load_vector_store(path):
     if os.path.exists(path):
         with open(path, "rb") as f:
             vector_store = pickle.load(f)
-        st.success("Vector store loaded successfully!")
+        st.success("Notes  loaded successfully! , Ask your questions below.")
         return vector_store
     else:
-        st.error(f"Vector store not found at {path}. Please ensure 'main.py' has been run to create it.")
+        st.error(f"Vector store not found at {path}.")
         st.stop()
 
 vector_store = load_vector_store(VECTOR_STORE_PATH)

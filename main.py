@@ -58,7 +58,7 @@ def main():
             #st.write("Embeddings Loaded from the disk")
         else:
             #embeddings
-            model_name = "sentence-transformers/all-MiniLM-L12-v2" #all-MiniLM-L6-v2 -all-MiniLM-L12-v2   all-mpnet-base-v2
+            model_name = "sentence-transformers/all-MiniLM-L6-v2" #all-MiniLM-L6-v2 -all-MiniLM-L12-v2   all-mpnet-base-v2
             model_kwargs = {'device':'cpu'}
             embeddings = HuggingFaceEmbeddings(model_name=model_name, model_kwargs=model_kwargs)
             vectorStore = FAISS.from_texts(chunks, embedding=embeddings)
