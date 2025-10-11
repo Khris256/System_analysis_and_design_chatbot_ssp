@@ -44,17 +44,14 @@ st.markdown(
         color: white;
     }
     .stChatMessage {
-        background-color: #1E1E1E;
         border-radius: 10px;
         padding: 10px;
         margin-bottom: 10px;
     }
     .stChatMessage.user {
-        background-color: #0056b3;
         text-align: right;
     }
     .stChatMessage.assistant {
-        background-color: #262730;
         text-align: left;
     }
     </style>
