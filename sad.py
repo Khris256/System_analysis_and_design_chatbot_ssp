@@ -1,4 +1,5 @@
 import streamlit as st
+from streamlit_extras.add_vertical_space import add_vertical_space
 import pickle
 import os
 from langchain_google_genai import ChatGoogleGenerativeAI
@@ -6,9 +7,17 @@ from langchain.chains.question_answering import load_qa_chain
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 
+#sidebar contents
+with st.sidebar:
+    st.title("SSP.ai😊")
+    st.markdown('''
+        ##About
+        Ssp.ai is model trained on lecture notes to give responses that are similar to what was provided in the notes
+    ''')
+    add_vertical_space()
+    st.write('Made by khris calvin')
+
 # IMPORTANT: API key is stored in Streamlit Cloud Secrets
-# Go to: App Settings > Secrets > Add GOOGLE_API_KEY
-# This code will NOT expose your API key in the public repo
 if "GOOGLE_API_KEY" in st.secrets:
     os.environ["GOOGLE_API_KEY"] = st.secrets["GOOGLE_API_KEY"]
 else:
@@ -44,13 +53,13 @@ st.markdown(
         color: white;
     }
     .stChatMessage {
-        background-color: #1E1E1E;
+        background-color: #f5f5fa;
         border-radius: 10px;
         padding: 10px;
         margin-bottom: 10px;
     }
     .stChatMessage.user {
-        background-color: #0056b3;
+        background-color: #f5f5fa;
         text-align: right;
     }
     .stChatMessage.assistant {
