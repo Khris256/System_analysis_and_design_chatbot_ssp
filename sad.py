@@ -1,5 +1,4 @@
 import streamlit as st
-from streamlit_extras.add_vertical_space import add_vertical_space
 import pickle
 import os
 from langchain_google_genai import ChatGoogleGenerativeAI
@@ -14,7 +13,6 @@ with st.sidebar:
         ##About
         Ssp.ai is model trained on lecture notes to give responses that are similar to what was provided in the notes
     ''')
-    add_vertical_space()
     st.write('Made by khris calvin')
 
 # IMPORTANT: API key is stored in Streamlit Cloud Secrets
