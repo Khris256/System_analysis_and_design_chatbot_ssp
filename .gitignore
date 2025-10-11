@@ -27,7 +27,6 @@ wheels/
 *.egg
 
 # Vector store (this file is large)
-*.pkl
 
 # IDE
 .vscode/
