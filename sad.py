@@ -6,16 +6,9 @@ from langchain.chains.question_answering import load_qa_chain
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 
-#sidebar contents
-with st.sidebar:
-    st.title("SSP.ai😊")
-    st.markdown('''
-        ##About
-        Ssp.ai is model trained on lecture notes to give responses that are similar to what was provided in the notes
-    ''')
-    st.write('Made by khris calvin')
-
 # IMPORTANT: API key is stored in Streamlit Cloud Secrets
+# Go to: App Settings > Secrets > Add GOOGLE_API_KEY
+# This code will NOT expose your API key in the public repo
 if "GOOGLE_API_KEY" in st.secrets:
     os.environ["GOOGLE_API_KEY"] = st.secrets["GOOGLE_API_KEY"]
 else:
@@ -51,17 +44,17 @@ st.markdown(
         color: white;
     }
     .stChatMessage {
-        background-color: #f5f5fa;
+        background-color: #1E1E1E;
         border-radius: 10px;
         padding: 10px;
         margin-bottom: 10px;
     }
     .stChatMessage.user {
-        background-color: #f5f5fa;
+        background-color: #0056b3;
         text-align: right;
     }
     .stChatMessage.assistant {
-        background-color: #f5f5fa;
+        background-color: #262730;
         text-align: left;
     }
     </style>
@@ -69,7 +62,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-st.title("Ssp.ai 💡")
+st.title("System Analysis Chatbot")
 
 VECTOR_STORE_PATH = "Systems_Analysis_and_Design_Ninth_Edition_Gary_B_Shelly_Harry_J_Rosenblatt.pkl"
 
@@ -102,7 +95,7 @@ def load_vector_store(path):
     try:
         with open(path, "rb") as f:
             vector_store = pickle.load(f)
-        st.success(f"✅ Vector store loaded successfully!)")
+        st.success(f"✅ Vector store loaded successfully! ({file_size:.2f} MB)")
         return vector_store
     except Exception as e:
         st.error(f"❌ Error loading vector store: {str(e)}")
@@ -134,8 +127,12 @@ if prompt := st.chat_input("Ask a question about System Analysis and Design:"):
         full_response = ""
         
         try:
-            # Search for relevant documents using similarity search
-            docs = vector_store.similarity_search(query=prompt, k=4)
+            # Use retriever for better FAISS compatibility
+            retriever = vector_store.as_retriever(
+                search_type="similarity",
+                search_kwargs={"k": 4}
+            )
+            docs = retriever.get_relevant_documents(prompt)
             
             if not docs:
                 full_response = "I couldn't find relevant information in the document. Please try rephrasing your question."
