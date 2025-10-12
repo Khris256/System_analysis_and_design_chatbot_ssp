@@ -23,6 +23,16 @@ st.set_page_config(
     initial_sidebar_state="auto",
 )
 
+#sidebar contents
+with st.sidebar:
+    st.title("SSP assistant😊")
+    st.markdown('''
+        ##About
+        This app was designed by ssp students to easen their revision process 
+    ''')
+
+    st.write('Made by khris calvin')
+
 # Custom CSS for dark theme
 st.markdown(
     """
@@ -92,7 +102,7 @@ def load_vector_store(path):
     try:
         with open(path, "rb") as f:
             vector_store = pickle.load(f)
-        st.success(f"✅ Vector store loaded successfully! ({file_size:.2f} MB)")
+        st.success(f"✅ Vector store loaded successfully! Every thing is set make a prompt below)")
         return vector_store
     except Exception as e:
         st.error(f"❌ Error loading vector store: {str(e)}")
@@ -127,7 +137,7 @@ if prompt := st.chat_input("Ask a question about System Analysis and Design:"):
             # Use retriever for better FAISS compatibility
             retriever = vector_store.as_retriever(
                 search_type="similarity",
-                search_kwargs={"k": 4}
+                search_kwargs={"k": 5}
             )
             docs = retriever.get_relevant_documents(prompt)
             
@@ -137,7 +147,7 @@ if prompt := st.chat_input("Ask a question about System Analysis and Design:"):
                 # Create LLM and QA chain
                 llm = ChatGoogleGenerativeAI(
                     temperature=0, 
-                    model="gemini-2.0-flash-exp"
+                    model="gemini-2.5-flash"
                 )
                 chain = load_qa_chain(llm=llm, chain_type="stuff")
                 
