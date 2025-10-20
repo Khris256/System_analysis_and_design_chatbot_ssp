@@ -2,7 +2,7 @@ streamlit
 langchain
 langchain-google-genai
 langchain-community
-pydantic<2.0
+pydantic==1.10.13
 numpy<2.0
 faiss-cpu
 sentence-transformers
