@@ -1,10 +1,18 @@
 import streamlit as st
 import pickle
 import os
-from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain.chains.question_answering import load_qa_chain
-from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_community.vectorstores import FAISS
+
+# Try importing with error handling
+try:
+    from langchain_google_genai import ChatGoogleGenerativeAI
+    from langchain.chains.question_answering import load_qa_chain
+    from langchain_community.embeddings import HuggingFaceEmbeddings
+    from langchain_community.vectorstores import FAISS
+except ImportError as e:
+    st.error(f"❌ Import Error: {e}")
+    st.error("Dependencies may be incompatible. Check requirements.txt")
+    st.info("Required: pydantic==1.10.13, langchain-google-genai==0.0.11")
+    st.stop()
 
 # IMPORTANT: API key is stored in Streamlit Cloud Secrets
 # Go to: App Settings > Secrets > Add GOOGLE_API_KEY
@@ -23,14 +31,13 @@ st.set_page_config(
     initial_sidebar_state="auto",
 )
 
-#sidebar contents
+# Sidebar contents
 with st.sidebar:
     st.title("SSP assistant😊")
     st.markdown('''
-        ##About
-        This app was designed by ssp students to easen their revision process 
+        ## About
+        This app was designed by ssp students to ease their revision process 
     ''')
-
     st.write('Made by khris calvin')
 
 # Custom CSS for dark theme
@@ -102,15 +109,19 @@ def load_vector_store(path):
     try:
         with open(path, "rb") as f:
             vector_store = pickle.load(f)
-        st.success(f"✅ Vector store loaded successfully! Every thing is set make a prompt below)")
+        st.success(f"✅ Vector store loaded successfully! ({file_size:.2f} MB) - Everything is set, make a prompt below!")
         return vector_store
     except Exception as e:
         st.error(f"❌ Error loading vector store: {str(e)}")
         st.stop()
 
 # Load resources
-embeddings = load_embeddings()
-vector_store = load_vector_store(VECTOR_STORE_PATH)
+try:
+    embeddings = load_embeddings()
+    vector_store = load_vector_store(VECTOR_STORE_PATH)
+except Exception as e:
+    st.error(f"Failed to load resources: {e}")
+    st.stop()
 
 # Initialize chat history
 if "messages" not in st.session_state:
@@ -147,7 +158,7 @@ if prompt := st.chat_input("Ask a question about System Analysis and Design:"):
                 # Create LLM and QA chain
                 llm = ChatGoogleGenerativeAI(
                     temperature=0, 
-                    model="gemini-2.5-flash"
+                    model="gemini-1.5-flash"  # More stable model name
                 )
                 chain = load_qa_chain(llm=llm, chain_type="stuff")
                 
