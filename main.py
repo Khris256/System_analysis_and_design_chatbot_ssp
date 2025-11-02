@@ -39,10 +39,10 @@ st.set_page_config(
 
 # Sidebar contents
 with st.sidebar:
-    st.title("IBT assistant😊")
+    st.title("SAD assistant😊")
     st.markdown('''
         ## About
-        Welcome to the IBT Chatbot, your intelligent study companion designed by students, for students! This app simplifies your revision process by providing instant, accurate answers to your questions about IBT. Perfectly trained from our lecture notes.
+        Welcome to the SAD Chatbot, your intelligent study companion designed by students, for students! This app simplifies your revision process by providing instant, accurate answers to your questions about IBT. Perfectly trained from our lecture notes.
     ''')
     add_vertical_space()
     st.write('Made by Khris Calvin 🚀')
