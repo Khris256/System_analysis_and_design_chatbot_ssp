@@ -150,7 +150,7 @@ def setup_qa_chain(_vector_store):
     # Create retriever
     retriever = _vector_store.as_retriever(
         search_type="similarity",
-        search_kwargs={"k": 10}
+        search_kwargs={"k": 8}
     )
     
     # Create retrieval chain
